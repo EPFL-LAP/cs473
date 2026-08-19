@@ -86,15 +86,15 @@ module leds #( parameter [31:0] initialBaseAddress = 32'h50000000)
         assign s_ledsNext[n][0] = (s_pixelBased == 1'b1) ? s_dataInReg[0] : 
                                   (s_pixelIndex[7:6] == 2'd0) ? s_dataInReg[11-(n % 12)] :
                                   (s_pixelIndex[7:6] == 2'd1) ? s_dataInReg[11-(n % 12)] | s_ledsReg[n][0] :
-                                  (s_pixelIndex[7:6] == 2'd1) ? ~s_dataInReg[11-(n % 12)] & s_ledsReg[n][0] : s_dataInReg[11-(n % 12)] ^ s_ledsReg[n][0];
+                                  (s_pixelIndex[7:6] == 2'd2) ? ~s_dataInReg[11-(n % 12)] & s_ledsReg[n][0] : s_dataInReg[11-(n % 12)] ^ s_ledsReg[n][0];
         assign s_ledsNext[n][1] = (s_pixelBased == 1'b1) ? s_dataInReg[1] : 
                                   (s_pixelIndex[7:6] == 2'd0) ? s_dataInReg[11-(n % 12)] :
                                   (s_pixelIndex[7:6] == 2'd1) ? s_dataInReg[11-(n % 12)] | s_ledsReg[n][1] :
-                                  (s_pixelIndex[7:6] == 2'd1) ? ~s_dataInReg[11-(n % 12)] & s_ledsReg[n][1] : s_dataInReg[11-(n % 12)] ^ s_ledsReg[n][1];
+                                  (s_pixelIndex[7:6] == 2'd2) ? ~s_dataInReg[11-(n % 12)] & s_ledsReg[n][1] : s_dataInReg[11-(n % 12)] ^ s_ledsReg[n][1];
         assign s_ledsNext[n][2] = (s_pixelBased == 1'b1) ? s_dataInReg[2] : 
                                   (s_pixelIndex[7:6] == 2'd0) ? s_dataInReg[11-(n % 12)] :
                                   (s_pixelIndex[7:6] == 2'd1) ? s_dataInReg[11-(n % 12)] | s_ledsReg[n][2] :
-                                  (s_pixelIndex[7:6] == 2'd1) ? ~s_dataInReg[11-(n % 12)] & s_ledsReg[n][2] : s_dataInReg[11-(n % 12)] ^ s_ledsReg[n][2];
+                                  (s_pixelIndex[7:6] == 2'd2) ? ~s_dataInReg[11-(n % 12)] & s_ledsReg[n][2] : s_dataInReg[11-(n % 12)] ^ s_ledsReg[n][2];
         assign s_weRed[n]   = ((s_pixelBased == 1'b1 && s_pixelIndex[6:0] == n) ||
                                (s_pixelBased == 1'b0 && s_pixelIndex[5:2] == (n/12) && (s_pixelIndex[1:0] == 2'd2 ||s_pixelIndex[1:0] == 2'd3))) ? s_we : 1'b0;
         assign s_weGreen[n] = ((s_pixelBased == 1'b1 && s_pixelIndex[6:0] == n) ||
@@ -109,8 +109,6 @@ module leds #( parameter [31:0] initialBaseAddress = 32'h50000000)
           end
       end
 `ifdef GECKO5Education
-    wire [7:0] s_lineOffset [9:0];
-   
     for ( n = 0 ; n < 10 ; n = n + 1 )
       begin : gencolors
          always @(posedge clock)
