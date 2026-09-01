@@ -13,10 +13,10 @@ module uartTxFifo ( input wire        clock,
   wire       s_fifoRe = (fifoRe & ~fifoWe & ~s_fifoEmptyReg) | (fifoRe & fifoWe);
   wire [3:0] s_writeAddressNext = s_writeAddressReg + 4'd1;
   wire [3:0] s_readAddressNext = s_readAddressReg + 4'd1;
-  wire       s_fifoFullNext = (reset == 1'b1 || (fifoRe == 1'b1 && fifoWe == 1'b0)) ? 1'b0 :
-                              (fifoWe == 1'b1 && fifoRe == 1'b0 && s_writeAddressNext == s_readAddressReg) ? 1'b1 : s_fifoFullReg;
-  wire       s_fifoEmptyNext = (reset == 1'b1 || (fifoRe == 1'b1 && fifoWe == 1'b0 && s_readAddressNext == s_writeAddressReg)) ? 1'b1 :
-                               (fifoWe == 1'b1 && fifoRe == 1'b0) ? 1'b0 : s_fifoEmptyReg;
+  wire       s_fifoFullNext = (reset == 1'b1 || (s_fifoRe == 1'b1 && s_fifoWe == 1'b0)) ? 1'b0 :
+                              (s_fifoWe == 1'b1 && s_fifoRe == 1'b0 && s_writeAddressNext == s_readAddressReg) ? 1'b1 : s_fifoFullReg;
+  wire       s_fifoEmptyNext = (reset == 1'b1 || (s_fifoRe == 1'b1 && s_fifoWe == 1'b0 && s_readAddressNext == s_writeAddressReg)) ? 1'b1 :
+                               (s_fifoWe == 1'b1 && s_fifoRe == 1'b0) ? 1'b0 : s_fifoEmptyReg;
   
   assign fifoFull  = s_fifoFullReg;
   assign fifoEmpty = s_fifoEmptyReg;

@@ -191,7 +191,7 @@ begin
       end if;
       if (reset = '1' or s_startCount = '1') then 
         s_delayCounterReg <= (others => '0');
-      elsif (s_delayCounterReg /= X"FFFFFFFF" and s_countActiveReg <= '1') then
+      elsif (s_delayCounterReg /= X"FFFFFFFF" and s_countActiveReg = '1') then
         s_delayCounterReg <= s_delayCounterReg + to_unsigned(1, 32);
       end if; 
     end if;
