@@ -954,7 +954,7 @@ module dCache   ( input wire         clock,
                                    ( (s_internalStall == 1'b0 && s_rwTagIndex == s_lookupTagIndex) ||
                                      (s_internalStall == 1'b1 && s_rwTagIndex == s_forwardTagIndex)
                                    )) ? s_newCacheLineState :
-                                  (s_internalStall == 1'b0) ? s_state2 : s_stage1State3Reg;
+                                  (s_internalStall == 1'b0) ? s_state2 : s_stage1State2Reg;
   wire [3:0] s_stage1State3Next = (reset == 1'b1) ? STATE_INVALID :
                                   (s_updateWaysState[2] == 1'b1 &&
                                    s_flushActiveReg == 1'b0 &&
